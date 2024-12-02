@@ -22,7 +22,7 @@ unleash <- function(path, new_path = path) {
 
   yarn <- tinkr::yarn$new(path)
 
-  paragraphs <- xml2::xml_find_all(yarn$body, "./d1:paragraph")
+  paragraphs <- xml2::xml_find_all(yarn$body, "./d1:paragraph[not(d1:image)]")
   purrr::walk(paragraphs, handle_node)
 
   list_items <- xml2::xml_find_all(yarn$body, "./d1:list/d1:item")
