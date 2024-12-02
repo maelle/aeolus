@@ -16,3 +16,5 @@ Imports:
     tinkr,
     tokenizers,
     xml2
+URL: https://github.com/maelle/aeolus
+BugReports: https://github.com/maelle/aeolus/issues
