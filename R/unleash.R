@@ -22,9 +22,11 @@ unleash <- function(path, new_path = path) {
 
   yarn <- tinkr::yarn$new(path)
 
-  text <- purrr::keep(xml2::xml_children(yarn$body), \(x) xml2::xml_name(x) != "code_block")
+  paragraphs <- xml2::xml_find_all(yarn$body, "./d1:paragraph")
+  purrr::walk(paragraphs, handle_node)
 
-  purrr::walk(text, handle_node)
+  list_items <- xml2::xml_find_all(yarn$body, "./d1:list/d1:item")
+  purrr::walk(list_items, handle_node)
 
   yarn$write(new_path)
   invisible(new_path)
@@ -46,7 +48,13 @@ handle_node <- function(node) {
   md_lines <- paste(md_lines, collapse = "\n")
   xml <- xml2::read_xml(commonmark::markdown_xml(md_lines))
   body <- xml2::xml_child(xml)
-  xml2::xml_replace(node, body)
+  if (xml2::xml_name(node) == "paragraph") {
+    xml2::xml_replace(node, body)
+  } else if (xml2::xml_name(node) == "item") {
+    xml2::xml_name(body) <- xml2::xml_name(node)
+    kiddo <- xml2::xml_child(body)
+    xml2::xml_name(kiddo) <- xml2::xml_name(xml2::xml_child(node))
+  }
 }
 
 

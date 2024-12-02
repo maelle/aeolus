@@ -1,3 +1,10 @@
+1. thing
+2. other thing
+
+- item 1
+- item 2
+- item 3
+
 This is a **sentence**. This is another [sentence](https://github.com).
 
 In this paragraph
