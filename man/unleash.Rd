@@ -4,7 +4,7 @@
 \alias{unleash}
 \title{Create better line breaks}
 \usage{
-unleash(path, new_path = path, max_part_length = 80L)
+unleash(path, new_path = path)
 }
 \arguments{
 \item{path}{Path to the Markdown file}

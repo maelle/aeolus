@@ -15,7 +15,7 @@
 #' readLines(markdown_file)
 #' unleash(markdown_file)
 #' readLines(markdown_file)
-unleash <- function(path, new_path = path, max_part_length = 80L) {
+unleash <- function(path, new_path = path) {
   if (!file.exists(path)) {
     cli::cli_abort("Can't find path {path}.")
   }
