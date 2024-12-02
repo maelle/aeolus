@@ -12,9 +12,11 @@ RoxygenNote: 7.3.2.9000
 Imports: 
     brio,
     cli,
+    commonmark,
     purrr,
     tinkr,
     tokenizers,
+    withr,
     xml2
 URL: https://github.com/maelle/aeolus
 BugReports: https://github.com/maelle/aeolus/issues
