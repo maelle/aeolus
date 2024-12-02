@@ -1,4 +1,21 @@
-unleash <- function(path, max_part_length = 80L) {
+#' Create better line breaks
+#'
+#' Currently `unleash()` only adds line breaks after sentences.
+#' For better results,
+#' you should also add line breaks after long sentence parts, manually.
+#'
+#' @param path Path to the Markdown file
+#' @param new_path Path where to save the new file
+#'
+#' @return Path to the new file (invisibly)
+#' @export
+#'
+#' @examples
+#' markdown_file <- system.file("example.md", package = "aeolus")
+#' readLines(markdown_file)
+#' unleash(markdown_file)
+#' readLines(markdown_file)
+unleash <- function(path, new_path = path, max_part_length = 80L) {
   if (!file.exists(path)) {
     cli::cli_abort("Can't find path {path}.")
   }
@@ -9,7 +26,8 @@ unleash <- function(path, max_part_length = 80L) {
 
   purrr::walk(text, handle_node)
 
-  browser()
+  yarn$write(new_path)
+  invisible(new_path)
 }
 
 handle_node <- function(node) {
@@ -22,7 +40,9 @@ handle_node <- function(node) {
   md_lines <- brio::read_lines(md_file)
   # no empty lines in nodes
   md_lines <- md_lines[nzchar(md_lines)]
+
   md_lines <- tokenizers::tokenize_sentences(md_lines)[[1]]
+
   md_lines <- paste(md_lines, collapse = "\n")
   xml <- xml2::read_xml(commonmark::markdown_xml(md_lines))
   body <- xml2::xml_child(xml)

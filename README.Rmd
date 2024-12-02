@@ -26,7 +26,7 @@ aEOLus, get it? :wink:
 You can install the development version of aeolus like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+pak::pak("maelle/aeolus")
 ```
 
 ## Why have semantic linebreaks?
@@ -61,11 +61,8 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(aeolus)
-## basic example code
-```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
+markdown_file <- system.file("example.md", package = "aeolus")
+readLines(markdown_file)
+unleash(markdown_file)
+readLines(markdown_file)
 ```
