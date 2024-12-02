@@ -1,5 +1,11 @@
 This is a **sentence**. This is another [sentence](https://github.com).
 
+In this paragraph
+I made 
+random line 
+breaks. How annoying
+is it?!
+
 ```md
 This is a sentence. This is another
 sentence.
