@@ -43,8 +43,32 @@ handle_node <- function(node) {
   # no empty lines in nodes
   md_lines <- md_lines[nzchar(md_lines)]
 
-  md_lines <- tokenizers::tokenize_sentences(md_lines)[[1]]
+  md_lines <- tokenizers::tokenize_sentences(md_lines, simplify = TRUE)
 
+
+  # Pretty horrible fix for the case where a sentence is wrapped
+  # in bold or italic markup, as tokenizers separate the end marker from
+  # the sentence
+  if (length(md_lines) > 1) {
+    for (i in seq.int(from = 2, to = length(md_lines))) {
+      if (startsWith(md_lines[i], "**")) {
+        md_lines[i - 1] <- paste0(md_lines[i - 1], "**")
+        md_lines[i] <- sub("^\\*\\*", "", md_lines[i])
+      }
+      if (startsWith(md_lines[i], "*")) {
+        md_lines[i - 1] <- paste0(md_lines[i - 1], "*")
+        md_lines[i] <- sub("^\\*", "", md_lines[i])
+      }
+      if (startsWith(md_lines[i], "__")) {
+        md_lines[i - 1] <- paste0(md_lines[i - 1], "__")
+        md_lines[i] <- sub("^__", "", md_lines[i])
+      }
+      if (startsWith(md_lines[i], "_")) {
+        md_lines[i - 1] <- paste0(md_lines[i - 1], "_")
+        md_lines[i] <- sub("^_", "", md_lines[i])
+      }
+    }
+  }
   md_lines <- paste(md_lines, collapse = "\n")
   xml <- xml2::read_xml(commonmark::markdown_xml(md_lines))
   body <- xml2::xml_child(xml)
