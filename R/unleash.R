@@ -35,75 +35,50 @@ unleash <- function(path, new_path = path) {
 handle_node <- function(node) {
   softbreaks <- xml2::xml_find_all(node, "./d1:softbreak")
   xml2::xml_replace(softbreaks, "text", " ")
-  placeholder <- create_placeholder(node)
 
-  md_file <- withr::local_tempfile()
-  placeholder$write(md_file)
-  md_lines <- brio::read_lines(md_file)
-  # no empty lines in nodes
-  md_lines <- md_lines[nzchar(md_lines)]
-
-  md_lines <- tokenizers::tokenize_sentences(md_lines, simplify = TRUE)
-
-
-  # Pretty horrible fix for the case where a sentence is wrapped
-  # in bold or italic markup, as tokenizers separate the end marker from
-  # the sentence
-  if (length(md_lines) > 1) {
-    for (i in seq.int(from = 2, to = length(md_lines))) {
-      if (startsWith(md_lines[i], "**")) {
-        md_lines[i - 1] <- paste0(md_lines[i - 1], "**")
-        md_lines[i] <- sub("^\\*\\*", "", md_lines[i])
-      }
-      if (startsWith(md_lines[i], "*")) {
-        md_lines[i - 1] <- paste0(md_lines[i - 1], "*")
-        md_lines[i] <- sub("^\\*", "", md_lines[i])
-      }
-      if (startsWith(md_lines[i], "__")) {
-        md_lines[i - 1] <- paste0(md_lines[i - 1], "__")
-        md_lines[i] <- sub("^__", "", md_lines[i])
-      }
-      if (startsWith(md_lines[i], "_")) {
-        md_lines[i - 1] <- paste0(md_lines[i - 1], "_")
-        md_lines[i] <- sub("^_", "", md_lines[i])
+  for (kiddo in xml2::xml_children(node)) {
+    if (xml2::xml_name(kiddo) == "text") {
+      sentences <- tokenizers::tokenize_sentences(
+        xml2::xml_text(kiddo),
+        simplify = TRUE
+      )
+      if (length(sentences) > 1) {
+        for (sentence in rev(sentences[-1])) {
+          xml2::xml_add_sibling(
+            kiddo,
+            "text",
+            sentence,
+            .where = "after"
+          )
+        }
+        xml2::xml_replace(
+          kiddo,
+          "text",
+          sentences[1]
+        )
       }
     }
   }
-  md_lines <- paste(md_lines, collapse = "\n")
-  xml <- xml2::read_xml(commonmark::markdown_xml(md_lines))
-  body <- xml2::xml_child(xml)
-  if (xml2::xml_name(node) == "paragraph") {
-    xml2::xml_replace(node, body)
-  } else if (xml2::xml_name(node) == "item") {
-    xml2::xml_name(body) <- xml2::xml_name(node)
-    kiddo <- xml2::xml_child(body)
-    xml2::xml_name(kiddo) <- xml2::xml_name(xml2::xml_child(node))
+  how_many_kiddos <- length(xml2::xml_children(node))
+  if (how_many_kiddos == 1) {
+    return()
   }
-}
 
-
-create_placeholder <- function(xml) {
-  temp_file <- withr::local_tempfile()
-
-  lines <- paste(
-    readLines(system.file("template.xml", package = "aeolus")),
-    collapse = "\n"
-  )
-
-  fill <- if (inherits(xml, "xml_nodeset")) {
-    paste(as.character(xml), collapse = "\n")
-  } else if (inherits(xml, "xml_node")) {
-    as.character(xml)
-  } else
-  {
-    paste(
-      purrr::map_chr(xml, ~ paste(as.character(xml2::xml_children(.x)), collapse = "\n")),
-      collapse = "\n"
-    )
+  for (kiddo in xml2::xml_children(node)[-how_many_kiddos]) {
+    if (xml2::xml_name(kiddo) == "text" && grepl("[\\.\\!\\?\\;\\:]$", xml2::xml_text(kiddo))) {
+      xml2::xml_add_sibling(
+        kiddo,
+        "softbreak",
+        .where = "after"
+      )
+    }
   }
-  lines <- sub("FILLHERE", fill, lines, fixed = TRUE)
-  brio::write_lines(lines, temp_file)
-  placeholder <- tinkr::yarn$new()
-  placeholder$body <- xml2::read_xml(temp_file)
-  placeholder
+
+
+  # remove space that was here to separate sentences
+  # on the same line
+  # just_space but also precedent sibling has to be softbreak!
+  just_space <- xml2::xml_find_all(node, ".//softbreak/following-sibling::text")
+  just_space <- just_space[xml2::xml_text(just_space) == " "]
+  xml2::xml_remove(just_space)
 }
