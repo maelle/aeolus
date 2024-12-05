@@ -1,5 +1,3 @@
-We summarise these data from individual and pair time periods. We can find the **statistical distributions** that best fit the data ([McFarland et al., 2023](https://www.eurosurveillance.org/content/10.2807/1560-7917.ES.2023.28.27.2200806)).
-
 This is a **sentence**. This is another [sentence](https://github.com).
 
 In this paragraph
@@ -24,4 +22,9 @@ This is a very long paragraph very very long without any breaks whatsoever which
 
 **What is wrong with bold text?** What?
 
+The [difference between working openly and transparently](https://wiki.mozilla.org/Working_open#Open_vs._Transparent).
 
+
+This is a footnote [^ok].
+
+[^ok]: Some more information.
