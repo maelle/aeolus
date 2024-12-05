@@ -20,13 +20,20 @@ unleash <- function(path, new_path = path) {
     cli::cli_abort("Can't find path {path}.")
   }
 
-  yarn <- tinkr::yarn$new(path)
+  # sourcepos needed to protect footnotes!
+  yarn <- tinkr::yarn$new(path, sourcepos = TRUE)
 
   paragraphs <- xml2::xml_find_all(yarn$body, "./d1:paragraph[not(d1:image)]")
   purrr::walk(paragraphs, handle_node)
 
   list_items <- xml2::xml_find_all(yarn$body, "./d1:list/d1:item")
   purrr::walk(list_items, handle_node)
+
+  text <- xml2::xml_find_all(yarn$body, ".//text")
+  purrr::walk(text, handle_text)
+
+  text <- xml2::xml_find_all(yarn$body, ".//d1:text")
+  purrr::walk(text, handle_text)
 
   yarn$write(new_path)
   invisible(new_path)
@@ -65,7 +72,8 @@ handle_node <- function(node) {
   }
 
   for (kiddo in xml2::xml_children(node)[-how_many_kiddos]) {
-    if (xml2::xml_name(kiddo) == "text" && grepl("[\\.\\!\\?\\;\\:]$", xml2::xml_text(kiddo))) {
+    if (xml2::xml_name(kiddo) %in% c("text", "strong", "italic") &&
+        grepl("[\\.\\!\\?\\;\\:](\\*\\_)?$", xml2::xml_text(kiddo))) {
       xml2::xml_add_sibling(
         kiddo,
         "softbreak",
@@ -74,11 +82,14 @@ handle_node <- function(node) {
     }
   }
 
+}
 
-  # remove space that was here to separate sentences
-  # on the same line
-  # just_space but also precedent sibling has to be softbreak!
-  just_space <- xml2::xml_find_all(node, ".//softbreak/following-sibling::text")
-  just_space <- just_space[xml2::xml_text(just_space) == " "]
-  xml2::xml_remove(just_space)
+handle_text <- function(text) {
+  if (!startsWith(xml2::xml_text(text), " ")) {
+    return(invisible(text))
+  }
+  last_sibling <- xml2::xml_find_all(text, "preceding-sibling::*[1]")
+  if (xml2::xml_name(last_sibling) == "softbreak") {
+    xml2::xml_text(text) <- sub("^ ", "", xml2::xml_text(text))
+  }
 }
