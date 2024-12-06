@@ -82,7 +82,12 @@ readLines(markdown_file)
     #> [22] ""                                                                                                                                  
     #> [23] "**What is wrong with bold text?** What?"                                                                                           
     #> [24] ""                                                                                                                                  
-    #> [25] ""
+    #> [25] "The [difference between working openly and transparently](https://wiki.mozilla.org/Working_open#Open_vs._Transparent)."            
+    #> [26] ""                                                                                                                                  
+    #> [27] ""                                                                                                                                  
+    #> [28] "This is a footnote [^ok]."                                                                                                         
+    #> [29] ""                                                                                                                                  
+    #> [30] "[^ok]: Some more information."
 
 ``` r
 unleash(markdown_file)
@@ -90,7 +95,7 @@ readLines(markdown_file)
 ```
 
     #>  [1] "This is a **sentence**."                                                                                                           
-    #>  [2] "This is another [sentence](https://github.com)."                                                                                   
+    #>  [2] "This is another[sentence](https://github.com)."                                                                                    
     #>  [3] ""                                                                                                                                  
     #>  [4] "In this paragraph I made random line breaks."                                                                                      
     #>  [5] "How annoying is it?!"                                                                                                              
@@ -112,4 +117,10 @@ readLines(markdown_file)
     #> [21] "**What is wrong with bold text?**"                                                                                                 
     #> [22] "What?"                                                                                                                             
     #> [23] ""                                                                                                                                  
-    #> [24] ""
+    #> [24] "The [difference between working openly and transparently](https://wiki.mozilla.org/Working_open#Open_vs._Transparent)."            
+    #> [25] ""                                                                                                                                  
+    #> [26] "This is a footnote [^ok]."                                                                                                         
+    #> [27] ""                                                                                                                                  
+    #> [28] "[^ok]: Some more information."                                                                                                     
+    #> [29] ""                                                                                                                                  
+    #> [30] ""
