@@ -4,7 +4,7 @@
       brio::read_lines(temp_file)
     Output
        [1] "This is a **sentence**."                                                                                                           
-       [2] "This is another[sentence](https://github.com)."                                                                                    
+       [2] "This is another [sentence](https://github.com)."                                                                                   
        [3] ""                                                                                                                                  
        [4] "In this paragraph I made random line breaks."                                                                                      
        [5] "How annoying is it?!"                                                                                                              

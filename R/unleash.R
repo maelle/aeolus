@@ -85,11 +85,18 @@ handle_node <- function(node) {
 }
 
 handle_text <- function(text) {
-  if (!startsWith(xml2::xml_text(text), " ")) {
-    return(invisible(text))
+  next_sibling <- xml2::xml_find_all(text, "following-sibling::*[1]")
+  if (length(next_sibling) > 0 && xml2::xml_name(next_sibling) == "link") {
+    end_space <- grepl(" $", xml2::xml_text(text))
+    if (!end_space) {
+      xml2::xml_text(text) <- paste0(xml2::xml_text(text), " ")
+    }
   }
-  last_sibling <- xml2::xml_find_all(text, "preceding-sibling::*[1]")
-  if (xml2::xml_name(last_sibling) == "softbreak") {
-    xml2::xml_text(text) <- sub("^ ", "", xml2::xml_text(text))
+
+  if (startsWith(xml2::xml_text(text), " ")) {
+    last_sibling <- xml2::xml_find_all(text, "preceding-sibling::*[1]")
+    if (xml2::xml_name(last_sibling) == "softbreak") {
+      xml2::xml_text(text) <- sub("^ ", "", xml2::xml_text(text))
+    }
   }
 }
