@@ -95,7 +95,7 @@ readLines(markdown_file)
 ```
 
     #>  [1] "This is a **sentence**."                                                                                                           
-    #>  [2] "This is another[sentence](https://github.com)."                                                                                    
+    #>  [2] "This is another [sentence](https://github.com)."                                                                                   
     #>  [3] ""                                                                                                                                  
     #>  [4] "In this paragraph I made random line breaks."                                                                                      
     #>  [5] "How annoying is it?!"                                                                                                              
@@ -124,3 +124,12 @@ readLines(markdown_file)
     #> [28] "[^ok]: Some more information."                                                                                                     
     #> [29] ""                                                                                                                                  
     #> [30] ""
+
+## Caveats
+
+aeolus uses the tinkr package under the hood, which means it suffers
+from the same limitations: for instance, files after editing only use
+“-”, not “\*“, for lists. Refer to [tinkr
+documentation](https://docs.ropensci.org/tinkr/#loss-of-markdown-style).
+We recommend using aeolus together with version control and reviewing
+changes carefully before committing them.
