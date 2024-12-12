@@ -15,7 +15,7 @@ Imports:
     tinkr (>= 0.2.0.9001),
     tokenizers,
     xml2
-URL: https://github.com/maelle/aeolus
+URL: https://docs.ropensci.org/aeolus/, https://github.com/maelle/aeolus
 BugReports: https://github.com/maelle/aeolus/issues
 Suggests: 
     brio,
