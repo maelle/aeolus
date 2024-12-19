@@ -51,14 +51,19 @@ More information: <https://sembr.org/>.
 ## How to add linebreaks at the end of sentences?
 
 1.  You can start doing it manually and make it a habit.
-2.  You can use RStudio IDE’s Visual Markdown editor and in the
-    project/global options, choose “sentence” as value for “Automatic
-    text wrapping (line breaks)” under “R Markdown”.
+2.  You can use RStudio IDE’s Visual Markdown editor with the correct
+    wrapping option:
+    - Either run `aeolus::use_sentence_linebreaks()` for the current
+      user (or `use_sentence_linebreaks("project")` for the current
+      project);
+    - Or, manually in the project/global options, choose “sentence” as
+      value for “Automatic text wrapping (line breaks)” under “R
+      Markdown”.
 
 ## How to fix a file that has no linebreaks at the end of sentences?
 
 1.  Open it with RStudio IDE’s Visual Markdown editor with the correct R
-    Markdown options, then save.
+    Markdown options (see previous section), then save.
 2.  Use aeolus.
 
 ## Example
@@ -137,9 +142,9 @@ readLines(markdown_file)
 
 ## Caveats
 
-aeolus uses the tinkr package under the hood, which means it suffers
-from the same limitations: for instance, files after editing only use
-“-”, not “\*“, for lists. Refer to [tinkr
+`aeolus::unleash()` uses the tinkr package under the hood, which means
+it suffers from the same limitations: for instance, files after editing
+only use “-”, not “\*“, for lists. Refer to [tinkr
 documentation](https://docs.ropensci.org/tinkr/#loss-of-markdown-style).
 We recommend using aeolus together with version control and reviewing
 changes carefully before committing them.

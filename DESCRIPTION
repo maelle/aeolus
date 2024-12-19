@@ -10,17 +10,19 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2.9000
 Imports: 
+    brio,
     cli,
     purrr,
+    rlang,
+    rstudioapi,
     tinkr (>= 0.2.0.9001),
     tokenizers,
     xml2
 URL: https://docs.ropensci.org/aeolus/, https://github.com/maelle/aeolus
 BugReports: https://github.com/maelle/aeolus/issues
 Suggests: 
-    brio,
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3
-Remotes:  
+Remotes: 
     ropensci/tinkr
