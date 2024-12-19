@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of aeolus is to create better, more semantic linebreaks in your Markdown file.
+The goal of aeolus is to fix Markdown files that have no semantic linebreaks.
 aEOLus, get it? :wink:
 
 ## Installation
@@ -56,6 +56,16 @@ the Git diff is less readable.
 With semantic linebreaks, code suggestions in GitHub Pull Requests are easier to make and use.
 
 More information: <https://sembr.org/>.
+
+## How to add linebreaks at the end of sentences?
+
+1. You can start doing it manually and make it a habit.
+1. You can use RStudio IDE's Visual Markdown editor and in the project/global options, choose "sentence" as value for "Automatic text wrapping (line breaks)" under "R Markdown".
+
+## How to fix a file that has no linebreaks at the end of sentences?
+
+1. Open it with RStudio IDE's Visual Markdown editor with the correct R Markdown options, then save.
+1. Use aeolus.
 
 ## Example
 
