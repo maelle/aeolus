@@ -2,7 +2,7 @@
 % Please edit documentation in R/rstudio.R
 \name{use_sentence_linebreaks}
 \alias{use_sentence_linebreaks}
-\title{Set Visual editor's Markdown wrapping option to "Sentence".}
+\title{Set Visual editor's Markdown wrapping option to "Sentence" (RStudio IDE).}
 \usage{
 use_sentence_linebreaks(scope = c("user", "project"))
 }
@@ -14,5 +14,5 @@ or locally for the current \emph{project}.}
 Nothing, used for its side-effects.
 }
 \description{
-Set Visual editor's Markdown wrapping option to "Sentence".
+Set Visual editor's Markdown wrapping option to "Sentence" (RStudio IDE).
 }

@@ -1,7 +1,7 @@
 
 
 # adapted from https://github.com/r-lib/usethis/blob/20e7eb244deb6157991c105786bf42efb2ac8640/R/rstudio.R#L60 # nolint: line_length_linter
-#' Set Visual editor's Markdown wrapping option to "Sentence".
+#' Set Visual editor's Markdown wrapping option to "Sentence" (RStudio IDE).
 #'
 #' @param scope Edit globally for the current *user*,
 #' or locally for the current *project*.
