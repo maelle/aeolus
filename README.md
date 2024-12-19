@@ -18,7 +18,7 @@ linebreaks. aEOLus, get it? :wink:
 You can install the development version of aeolus like so:
 
 ``` r
-pak::pak("maelle/aeolus")
+pak::pak("ropenscilabs/aeolus")
 ```
 
 ## Why have semantic linebreaks?
